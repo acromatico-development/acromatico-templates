@@ -8,7 +8,7 @@ type Propuesta = {
   description: string | undefined;
 };
 
-const MyDoc = ({ propuestas }: { propuestas: Propuesta[] }) => {
+const MyDoc = ({ propuestas, nombre }: { propuestas: Propuesta[], nombre: string }) => {
   const pdfContent = useRef(null);
 
   return (
@@ -17,7 +17,7 @@ const MyDoc = ({ propuestas }: { propuestas: Propuesta[] }) => {
       <div className="PDF-content">
         <h1>Propuesta de Templates</h1>
         <p>
-          Hola Rafael González, hemos revisado la tienda te templates de Shopify
+          Hola {nombre}, hemos revisado la tienda te templates de Shopify
           para encontrar algún template que se acople a tu marca y la estructura
           de sitio que diseñamos en el mapa de sitio que diseñamos. A
           continuación se muestran las opciones de template que te recomendamos:
@@ -54,6 +54,7 @@ const MyDoc = ({ propuestas }: { propuestas: Propuesta[] }) => {
 
 const Templates = () => {
   const [shopTemplates, setShopTemplates] = useState<Propuesta[]>([]);
+  const [name, setName] = useState<string>("");
 
   const handleDelete = useCallback((indice) => {
     const newArray = [...shopTemplates].splice(indice, 1);
@@ -89,6 +90,7 @@ const Templates = () => {
           Plantilla para enviar opciones de template a clientes con una tienda
           en contrucción.
         </p>
+        <input type="text" value={name} onChange={(e) => setName(e.target.value)} placeholder="Nombre de cliente" />
         <h3>Agrega un nuevo Template</h3>
         <div className="grid-form">
           <form onSubmit={handleShopifyTemplates}>
@@ -126,7 +128,7 @@ const Templates = () => {
         </div>
       </div>
 
-      {shopTemplates.length > 0 && <MyDoc propuestas={shopTemplates} />}
+      {shopTemplates.length > 0 && <MyDoc nombre={name} propuestas={shopTemplates} />}
     </>
   );
 };
